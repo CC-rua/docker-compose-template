@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+
+  db:
+    image: mysql:8.0.24
+    restart: always
+    container_name: "mysql_8"
+    environment:
+      MYSQL_ROOT_PASSWORD: hzzx2024
+    ports:
+      - "13306:3306"
+    volumes:
+      - ./data:/var/lib/mysql

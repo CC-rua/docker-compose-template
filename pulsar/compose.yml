@@ -1,0 +1,26 @@
+version: "3.7"
+services:
+  pulsar:
+    image: apachepulsar/pulsar:latest
+    command: bin/pulsar standalone
+    hostname: pulsar
+    ports:
+      - "8080:8080"
+      - "6650:6650"
+    restart: unless-stopped
+    volumes:
+      - "./data/:/pulsar/data"
+      - "./authentication/:/pulsar/authentication"
+  dashboard:
+    image: apachepulsar/pulsar-manager:latest
+    ports:
+      - "9527:9527"
+      - "7750:7750"
+    depends_on:
+      - pulsar
+    links:
+      - pulsar
+    environment:
+      SPRING_CONFIGURATION_FILE: /pulsar-manager/pulsar-manager/application.properties
+    volumes:
+      - "./authentication/:/pulsar-manager/authentication"
